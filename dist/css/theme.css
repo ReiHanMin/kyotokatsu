@@ -1,0 +1,26 @@
+body {
+  background-color: pink !important;
+}
+
+#wrapper-navbar {
+  font-family: "Times New Roman", Times, serif !important;
+  color: red !important;
+  border: 3rem solid red !important;
+}
+
+#wrapper-footer {
+  font-family: "Times New Roman", Times, serif !important;
+  color: red !important;
+  border: 4rem solid red !important;
+}
+
+.navbar-brand {
+  color: #ff6600 !important;
+  font-size: 1.5rem !important;
+  text-transform: uppercase !important;
+}
+.navbar-brand:hover {
+  color: #ff9900 !important;
+}
+
+/*# sourceMappingURL=theme.css.map */
