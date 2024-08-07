@@ -759,4 +759,114 @@ body {
 
 
 
+// Barbershops page
+
+.barbershops-page {
+
+    .barbershop-cards {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+        gap: 20px;
+        padding: 20px;
+    }
+
+    .barbershop-card {
+        border: 1px solid #ccc;
+        border-radius: 10px;
+        overflow: hidden;
+        background-color: white;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        transition: transform 0.3s, box-shadow 0.3s;
+        cursor: pointer; // Add this line to change the cursor to a hand on hover
+    }
+
+    .barbershop-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+    }
+
+    .barbershop-card-image {
+        width: 100%;
+        height: 200px; // Adjust height as needed
+        overflow: hidden;
+    }
+
+    .barbershop-card-image img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover; // Ensures the image covers the area
+    }
+
+    .barbershop-card-content {
+        padding: 15px;
+        text-align: center;
+    }
+
+    .barbershop-card h2 {
+        margin: 10px 0;
+        font-size: 1.5rem;
+        color: #333;
+    }
+
+    .barbershop-card p {
+        margin: 5px 0;
+        color: #666;
+    }
+
+    .rating {
+        color: gold;
+        font-size: 1.25rem;
+        margin: 5px 0;
+    }
+
+    .english-level {
+        margin: 5px 0;
+    }
+
+    .level-excellent {
+        color: #1EBBFF;
+    }
+
+    .level-good {
+        color: #1ECE25;
+    }
+
+    .level-fair {
+        color: #D7611F;
+    }
+
+    .level-poor {
+        color: #FF2B1E;
+    }
+
+    .services {
+        margin: 5px 0;
+    }
+
+    .distance {
+        margin: 5px 0;
+    }
+
+    .status {
+        margin: 5px 0;
+        font-weight: bold;
+    }
+
+    .status-open {
+        color: green;
+    }
+
+    .status-closed {
+        color: red;
+    }
+
+    .status-opening-soon,
+    .status-closing-soon {
+        color: orange;
+    }
+
+    .opening-hours {
+        margin: 5px 0;
+    }
+}
 

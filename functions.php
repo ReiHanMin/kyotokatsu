@@ -34,7 +34,7 @@ if ( class_exists( 'WooCommerce' ) ) {
     $understrap_includes[] = '/woocommerce.php';
 }
 
-// Load Jetpack compatibility file if Jetpack is activiated.
+// Load Jetpack compatibility file if Jetpack is activated.
 if ( class_exists( 'Jetpack' ) ) {
     $understrap_includes[] = '/jetpack.php';
 }
@@ -53,16 +53,18 @@ function create_barbershop_post_type() {
                 'singular_name' => __('Barbershop')
             ),
             'public' => true,
-            'has_archive' => true,
+            'has_archive' => true, // Ensure this is true
             'supports' => array('title', 'editor', 'thumbnail'),
-            'rewrite' => array('slug' => 'barbershops'),
+            'rewrite' => array('slug' => 'all-barbershops'), // Change this to a different slug
+            'show_in_rest' => true,
         )
     );
 }
 add_action('init', 'create_barbershop_post_type');
 
-// Enqueue Barbershop scripts
-function enqueue_barbershop_scripts() {
+
+// Enqueue scripts and styles
+function enqueue_custom_scripts() {
     wp_enqueue_script(
         'barbershop-js',
         get_template_directory_uri() . '/js/barbershop.js',
@@ -70,26 +72,37 @@ function enqueue_barbershop_scripts() {
         null,
         true
     );
-}
-add_action('wp_enqueue_scripts', 'enqueue_barbershop_scripts');
-
-
-function enqueue_custom_scripts() {
-    wp_enqueue_script('custom-script', get_template_directory_uri() . '/js/custom.js', array(), null, true);
-    wp_enqueue_style('custom-styles', get_template_directory_uri() . '/css/theme.css');
+    wp_enqueue_script(
+        'custom-script',
+        get_template_directory_uri() . '/js/custom.js',
+        array(),
+        null,
+        true
+    );
+    wp_enqueue_style(
+        'custom-styles',
+        get_template_directory_uri() . '/css/theme.css'
+    );
 }
 add_action('wp_enqueue_scripts', 'enqueue_custom_scripts');
 
-
+// Register menus
 function register_my_menus() {
-	register_nav_menus(
-	  array(
-		'primary' => __( 'Primary Menu', 'theme-slug' ),
-		'mobile-menu' => __( 'Mobile Menu', 'theme-slug' )
-	  )
-	);
-  }
-  add_action( 'init', 'register_my_menus' );
+    register_nav_menus(
+        array(
+            'primary' => __( 'Primary Menu', 'theme-slug' ),
+            'mobile-menu' => __( 'Mobile Menu', 'theme-slug' )
+        )
+    );
+}
+add_action( 'init', 'register_my_menus' );
 
-  
-  
+// Expose ACF fields to REST API
+add_action('rest_api_init', function() {
+    register_rest_field('barbershop', 'meta', array(
+        'get_callback' => function($object) {
+            return get_post_meta($object['id']);
+        },
+        'schema' => null,
+    ));
+});

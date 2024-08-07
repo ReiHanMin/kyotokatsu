@@ -9,33 +9,92 @@ document.addEventListener("DOMContentLoaded", function() {
     function showPosition(position) {
         const userLat = position.coords.latitude;
         const userLng = position.coords.longitude;
-        console.log(`User Latitude: ${userLat}, User Longitude: ${userLng}`);
-
-        const barbershopData = [];
 
         // Iterate over barbershop cards
         const barbershopCards = document.querySelectorAll('.barbershop-card');
         barbershopCards.forEach(card => {
-            const barberLat = parseFloat(card.getAttribute('data-latitude'));
-            const barberLng = parseFloat(card.getAttribute('data-longitude'));
-            console.log(`Barber Latitude: ${barberLat}, Barber Longitude: ${barberLng}`);
-            
-            const distance = calculateDistance(userLat, userLng, barberLat, barberLng);
-            console.log(`Distance for ${card.querySelector('h3').innerText}: ${distance} kms`);
+            const latitude = parseFloat(card.getAttribute('data-latitude'));
+            const longitude = parseFloat(card.getAttribute('data-longitude'));
+            const openingTime = card.getAttribute('data-opening-time');
+            const closingTime = card.getAttribute('data-closing-time');
 
-            barbershopData.push({ card, distance });
-        });
+            // Debugging logs
+            console.log('Opening Time:', openingTime);
+            console.log('Closing Time:', closingTime);
 
-        // Sort the barbershop data by distance
-        barbershopData.sort((a, b) => a.distance - b.distance);
-
-        // Clear the container and re-append the sorted cards
-        const container = document.querySelector('.barbershop-cards');
-        container.innerHTML = '';
-        barbershopData.slice(0, 3).forEach(({ card, distance }) => {
+            // Calculate distance
+            const distance = calculateDistance(userLat, userLng, latitude, longitude);
             card.querySelector('.distance').innerText = `Distance: ${distance.toFixed(2)} kms`;
-            card.classList.remove('hidden');
-            container.appendChild(card);
+
+            // Determine opening/closing status
+            var now = new Date();
+            var nowJST = new Date(now.toLocaleString("en-US", {timeZone: "Asia/Tokyo"}));
+
+            function parseTime(timeStr) {
+                var timeParts = timeStr.match(/(\d+):(\d+) (AM|PM)/i);
+                if (timeParts && timeParts.length === 4) {
+                    var hours = parseInt(timeParts[1]);
+                    var minutes = parseInt(timeParts[2]);
+                    var period = timeParts[3].toUpperCase();
+
+                    if (period === "PM" && hours !== 12) {
+                        hours += 12;
+                    } else if (period === "AM" && hours === 12) {
+                        hours = 0;
+                    }
+
+                    return new Date(nowJST.getFullYear(), nowJST.getMonth(), nowJST.getDate(), hours, minutes);
+                }
+                return null; // If the time format is incorrect, return null
+            }
+
+            var openTime = parseTime(openingTime);
+            var closeTime = parseTime(closingTime);
+
+            // Debugging logs
+            console.log('Open Time:', openTime);
+            console.log('Close Time:', closeTime);
+
+            if (openTime && closeTime) {
+                var status;
+                var nextOpeningTime = '';
+
+                if (nowJST >= openTime && nowJST <= closeTime) {
+                    if (nowJST >= subtractMinutes(closeTime, 60)) {
+                        status = 'Closes soon';
+                    } else {
+                        status = 'Open';
+                    }
+                } else if (nowJST < openTime && nowJST >= subtractMinutes(openTime, 60)) {
+                    status = 'Opens soon';
+                } else {
+                    status = 'Closed';
+                    nextOpeningTime = ', opens ' + formatTime(openTime);
+                }
+
+                card.querySelector('.status').innerText = status + nextOpeningTime;
+
+                function addMinutes(time, minsToAdd) {
+                    return new Date(time.getTime() + minsToAdd * 60000);
+                }
+
+                function subtractMinutes(time, minsToSubtract) {
+                    return new Date(time.getTime() - minsToSubtract * 60000);
+                }
+
+                function formatTime(date) {
+                    var hours = date.getHours();
+                    var minutes = date.getMinutes();
+                    if (minutes < 10) {
+                        minutes = '0' + minutes;
+                    }
+                    return hours + ':' + minutes;
+                }
+
+                card.classList.remove('hidden');
+            } else {
+                card.style.display = 'none';
+            }
         });
     }
 
@@ -60,7 +119,7 @@ document.addEventListener("DOMContentLoaded", function() {
         const R = 6371; // Radius of the earth in km
         const dLat = deg2rad(lat2 - lat1);
         const dLon = deg2rad(lon2 - lon1);
-        const a = 
+        const a =
             Math.sin(dLat / 2) * Math.sin(dLat / 2) +
             Math.cos(deg2rad(lat1)) * Math.cos(deg2rad(lat2)) *
             Math.sin(dLon / 2) * Math.sin(dLon / 2);
@@ -72,23 +131,3 @@ document.addEventListener("DOMContentLoaded", function() {
         return deg * (Math.PI / 180);
     }
 });
-
-
-document.addEventListener('DOMContentLoaded', function() {
-    const searchBar = document.getElementById('search-bar');
-    const findBarberButton = document.getElementById('find-barber');
-    const filterButtons = document.querySelectorAll('.filter-buttons button');
-    const barbershopCardsContainer = document.getElementById('barbershop-cards');
-
-    findBarberButton.addEventListener('click', function() {
-        // Implement search functionality here
-    });
-
-    filterButtons.forEach(button => {
-        button.addEventListener('click', function() {
-            const filterType = this.getAttribute('data-filter');
-            // Implement filtering functionality here
-        });
-    });
-
-    

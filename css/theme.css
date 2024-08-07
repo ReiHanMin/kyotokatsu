@@ -700,4 +700,91 @@ body {
   display: inline-block;
 }
 
+.barbershops-page .barbershop-cards {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 20px;
+  padding: 20px;
+}
+.barbershops-page .barbershop-card {
+  border: 1px solid #ccc;
+  border-radius: 10px;
+  overflow: hidden;
+  background-color: white;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  transition: transform 0.3s, box-shadow 0.3s;
+  cursor: pointer;
+}
+.barbershops-page .barbershop-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+}
+.barbershops-page .barbershop-card-image {
+  width: 100%;
+  height: 200px;
+  overflow: hidden;
+}
+.barbershops-page .barbershop-card-image img {
+  width: 100%;
+  height: 100%;
+  -o-object-fit: cover;
+  object-fit: cover;
+}
+.barbershops-page .barbershop-card-content {
+  padding: 15px;
+  text-align: center;
+}
+.barbershops-page .barbershop-card h2 {
+  margin: 10px 0;
+  font-size: 1.5rem;
+  color: #333;
+}
+.barbershops-page .barbershop-card p {
+  margin: 5px 0;
+  color: #666;
+}
+.barbershops-page .rating {
+  color: gold;
+  font-size: 1.25rem;
+  margin: 5px 0;
+}
+.barbershops-page .english-level {
+  margin: 5px 0;
+}
+.barbershops-page .level-excellent {
+  color: #1EBBFF;
+}
+.barbershops-page .level-good {
+  color: #1ECE25;
+}
+.barbershops-page .level-fair {
+  color: #D7611F;
+}
+.barbershops-page .level-poor {
+  color: #FF2B1E;
+}
+.barbershops-page .services {
+  margin: 5px 0;
+}
+.barbershops-page .distance {
+  margin: 5px 0;
+}
+.barbershops-page .status {
+  margin: 5px 0;
+  font-weight: bold;
+}
+.barbershops-page .status-open {
+  color: green;
+}
+.barbershops-page .status-closed {
+  color: red;
+}
+.barbershops-page .status-opening-soon,
+.barbershops-page .status-closing-soon {
+  color: orange;
+}
+.barbershops-page .opening-hours {
+  margin: 5px 0;
+}
+
 /*# sourceMappingURL=theme.css.map */

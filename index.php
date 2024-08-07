@@ -58,7 +58,7 @@ $container = get_theme_mod( 'understrap_container_type' );
 
 			<?php
 			// Display the pagination component.
-			understrap_pagination();
+			// understrap_pagination();
 
 			// Do the right sidebar check and close div#primary.
 			get_template_part( 'global-templates/right-sidebar-check' );
