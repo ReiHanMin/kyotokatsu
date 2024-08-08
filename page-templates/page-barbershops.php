@@ -56,8 +56,9 @@ get_header();
                                         ?>
                                     </div>
                                     <p>English level: <span class="english-level english-<?php echo strtolower($english_level); ?>"><?php echo $english_level; ?></span></p>
-                                    <p class="distance">Distance: not calculated</p>
                                     <p class="status status-<?php echo strtolower(str_replace(' ', '-', $status)); ?>">Status: not calculated</p>
+                                    <p class="distance">Distance: not calculated</p>
+                                    
                                 </div>
                                 <?php
                             }

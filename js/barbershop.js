@@ -61,15 +61,15 @@ document.addEventListener("DOMContentLoaded", function() {
 
                 if (nowJST >= openTime && nowJST <= closeTime) {
                     if (nowJST >= subtractMinutes(closeTime, 60)) {
-                        status = 'Closes soon';
+                        status = 'Closes soon at ' + formatTime(closeTime);
                     } else {
                         status = 'Open';
                     }
                 } else if (nowJST < openTime && nowJST >= subtractMinutes(openTime, 60)) {
-                    status = 'Opens soon';
+                    status = 'Opens soon at ' + formatTime(openTime);
                 } else {
                     status = 'Closed';
-                    nextOpeningTime = ', opens ' + formatTime(openTime);
+                    nextOpeningTime = ', opens at ' + formatTime(openTime);
                 }
 
                 card.querySelector('.status').innerText = status + nextOpeningTime;
