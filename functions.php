@@ -53,15 +53,14 @@ function create_barbershop_post_type() {
                 'singular_name' => __('Barbershop')
             ),
             'public' => true,
-            'has_archive' => true, // Ensure this is true
+            'has_archive' => true,
             'supports' => array('title', 'editor', 'thumbnail'),
-            'rewrite' => array('slug' => 'all-barbershops'), // Change this to a different slug
+            'rewrite' => array('slug' => 'barber-archive'), // Changed slug to avoid conflicts
             'show_in_rest' => true,
         )
     );
 }
 add_action('init', 'create_barbershop_post_type');
-
 
 // Enqueue scripts and styles
 function enqueue_custom_scripts() {

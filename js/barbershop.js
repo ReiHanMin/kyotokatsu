@@ -62,14 +62,18 @@ document.addEventListener("DOMContentLoaded", function() {
                 if (nowJST >= openTime && nowJST <= closeTime) {
                     if (nowJST >= subtractMinutes(closeTime, 60)) {
                         status = 'Closes soon at ' + formatTime(closeTime);
+                        card.querySelector('.status').className = 'status status-closing-soon';
                     } else {
                         status = 'Open';
+                        card.querySelector('.status').className = 'status status-open';
                     }
                 } else if (nowJST < openTime && nowJST >= subtractMinutes(openTime, 60)) {
                     status = 'Opens soon at ' + formatTime(openTime);
+                    card.querySelector('.status').className = 'status status-opening-soon';
                 } else {
                     status = 'Closed';
                     nextOpeningTime = ', opens at ' + formatTime(openTime);
+                    card.querySelector('.status').className = 'status status-closed';
                 }
 
                 card.querySelector('.status').innerText = status + nextOpeningTime;
