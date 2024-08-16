@@ -64,26 +64,31 @@ add_action('init', 'create_barbershop_post_type');
 
 // Enqueue scripts and styles
 function enqueue_custom_scripts() {
-    wp_enqueue_script(
-        'barbershop-js',
-        get_template_directory_uri() . '/js/barbershop.js',
-        array(),
-        null,
-        true
-    );
-    wp_enqueue_script(
-        'custom-script',
-        get_template_directory_uri() . '/js/custom.js',
-        array(),
-        null,
-        true
-    );
+    if (is_singular('barbershop')) {
+        wp_enqueue_script(
+            'single-barbershop-js',
+            get_template_directory_uri() . '/js/single-barbershop.js',
+            array(),
+            null,
+            true
+        );
+    } else {
+        wp_enqueue_script(
+            'barbershop-js',
+            get_template_directory_uri() . '/js/barbershop.js',
+            array(),
+            null,
+            true
+        );
+    }
+
     wp_enqueue_style(
         'custom-styles',
         get_template_directory_uri() . '/css/theme.css'
     );
 }
 add_action('wp_enqueue_scripts', 'enqueue_custom_scripts');
+
 
 // Register menus
 function register_my_menus() {
@@ -105,3 +110,5 @@ add_action('rest_api_init', function() {
         'schema' => null,
     ));
 });
+
+

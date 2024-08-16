@@ -40,11 +40,12 @@ get_header();
                                 $opening_time = get_field('opening_time');
                                 $closing_time = get_field('closing_time');
                                 ?>
-                                <a href="<?php the_permalink(); ?>" class="barbershop-card-link">
-                                    <div class="barbershop-card hidden" data-latitude="<?php echo esc_attr($latitude); ?>" data-longitude="<?php echo esc_attr($longitude); ?>" data-opening-time="<?php echo esc_attr($opening_time); ?>" data-closing-time="<?php echo esc_attr($closing_time); ?>">
-                                        <?php if (has_post_thumbnail()) {
-                                            the_post_thumbnail('full', ['class' => 'barbershop-image']);
-                                        } ?>
+                                   <a href="<?php the_permalink(); ?>" class="barbershop-card-link">
+                                <div class="barbershop-card" data-latitude="<?php echo esc_attr($latitude); ?>" data-longitude="<?php echo esc_attr($longitude); ?>" data-opening-time="<?php echo esc_attr($opening_time); ?>" data-closing-time="<?php echo esc_attr($closing_time); ?>">
+                                    <?php if (has_post_thumbnail()) {
+                                        the_post_thumbnail('thumbnail', ['class' => 'barbershop-image']);
+                                    } ?>
+                                    <div class="card-content">
                                         <h3><?php the_title(); ?></h3>
                                         <div class="rating"><?php echo str_repeat('★', $rating); ?></div>
                                         <div class="services">
@@ -56,15 +57,37 @@ get_header();
                                             }
                                             ?>
                                         </div>
-                                        <p>English level: <span class="english-level english-<?php echo strtolower($english_level); ?>"><?php echo $english_level; ?></span></p>
-                                        <p class="status status-<?php echo strtolower(str_replace(' ', '-', $status)); ?>">Status: not calculated</p>
-                                        <p class="distance">Distance: not calculated</p>
+                                        <div class="level">
+                                            <p>English level: <span class="english-level english-<?php echo strtolower($english_level); ?>"><?php echo $english_level; ?></span></p>
+                                        </div>
+                                        <div class="status status-<?php echo strtolower(str_replace(' ', '-', $status)); ?>">
+                                            <?php
+                                            $current_time = current_time('H:i');
+                                            $open_soon_threshold = date('H:i', strtotime('+1 hour', strtotime($opening_time)));
+                                            $close_soon_threshold = date('H:i', strtotime('-1 hour', strtotime($closing_time)));
+
+                                            if ($status === 'Closed' && $current_time >= $closing_time && $current_time < $open_soon_threshold) {
+                                                echo 'Opens soon ' . $opening_time;
+                                            } elseif ($status === 'Open' && $current_time >= $close_soon_threshold && $current_time < $closing_time) {
+                                                echo 'Closes soon ' . $closing_time;
+                                            } else {
+                                                if ($status === 'Open') {
+                                                    echo 'Open now until ' . $closing_time;
+                                                } else {
+                                                    echo 'Closed, opens at ' . $opening_time;
+                                                }
+                                            }
+                                            ?>
+                                        </div>
+                                        <div class="distance">
+                                            <?php // Add code here to calculate and display distance ?>
+                                        </div>
                                     </div>
-                                </a>
+                                </div>
                                 <?php
                             }
                         } else {
-                            // no posts found
+                            // No posts found
                             echo '<p>No barbershops found.</p>';
                         }
                         /* Restore original Post Data */
@@ -76,7 +99,7 @@ get_header();
         </div><!-- .row -->
     </div><!-- Container end -->
 </div><!-- Wrapper end -->
-
+                    </a>
 <?php
 get_footer();
 ?>
